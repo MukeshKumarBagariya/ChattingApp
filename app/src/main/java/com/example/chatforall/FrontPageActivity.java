@@ -21,7 +21,11 @@ public class FrontPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_front_page);
+        setTitle("Chat to all");
         ParseInstallation.getCurrentInstallation().saveInBackground();
+        if (ParseUser.getCurrentUser() != null){
+            tranjectionActivity();
+        }
         backgroundImage = findViewById(R.id.backgroundImage);
         logo = findViewById(R.id.logoImage);
         splitText = findViewById(R.id.splitText);
@@ -47,8 +51,14 @@ public class FrontPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(FrontPageActivity.this, SignUpActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
+    }
+    public void tranjectionActivity(){
+        Intent intent = new Intent(FrontPageActivity.this, WelcomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

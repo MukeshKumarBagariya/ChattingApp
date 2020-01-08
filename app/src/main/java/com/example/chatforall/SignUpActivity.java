@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -16,6 +17,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,9 +49,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        if (ParseUser.getCurrentUser() != null){
-            tranjetionActivity();
-        }
+        setTitle("Sign Up");
         phoneNumberText = findViewById(R.id.phoneNumberText);
         confirmButton = findViewById(R.id.coinformButton);
         countryCodeText = findViewById(R.id.countrycodeText);
@@ -206,10 +207,6 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    public void tranjetionActivity(){
-        Intent i = new Intent(SignUpActivity.this,WelcomeActivity.class);
-        startActivity(i);
-    }
     private void captureImage(){
 
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -237,4 +234,17 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.login_bar,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent chaneActivity = new Intent(SignUpActivity.this,LoginActivity.class);
+        startActivity(chaneActivity);
+        finish();
+        return super.onOptionsItemSelected(item);
+    }
 }

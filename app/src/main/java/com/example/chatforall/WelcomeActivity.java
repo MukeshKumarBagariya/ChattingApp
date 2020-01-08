@@ -22,7 +22,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private ListView list;
     private ArrayList<String> usersName;
     private ArrayAdapter arrayAdapter;
@@ -49,11 +49,12 @@ public class WelcomeActivity extends AppCompatActivity {
                 }
             }
         });
+        list.setOnItemClickListener(this);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 try {
-                    ParseQuery<ParseUser> parseQuery1 = ParseUser.getQuery();
+                    ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
                     parseQuery.whereNotEqualTo("username",ParseUser.getCurrentUser().getUsername());
                     parseQuery.whereNotContainedIn("username",usersName);
                     parseQuery.findInBackground(new FindCallback<ParseUser>() {
@@ -104,5 +105,12 @@ public class WelcomeActivity extends AppCompatActivity {
                 });
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent i = new Intent(WelcomeActivity.this, ChatUserActivity.class);
+        i.putExtra("selectedUser",usersName.get(position));
+        startActivity(i);
     }
 }
